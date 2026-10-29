@@ -229,7 +229,7 @@ Minimum assignment tables are retained with additional fields needed for snapsho
 | supplier_results | Required fields including absolute_score/ppi/final_rank/result_json; unique run/supplier and run/rank. |
 | run_events | Stable event identity, F-node name/ID, supplier, timestamp and outcome. |
 
-The illustrative industry baseline is versioned in configuration and frozen into rfp_runs.baseline_json; no separate industry_baselines table is needed for the local build. Original PDF bytes and extracted page text are private files; SQLite/checkpoints reference hashes/paths. 
+The illustrative industry baseline is versioned in configuration and frozen into rfp_runs.baseline_json; no separate industry_baselines table is needed for the local build. Original PDF bytes and extracted page text are private files; SQLite/checkpoints reference hashes/paths.
 
 Enable foreign keys per connection. Parameterize SQL. Seed idempotently; never overwrite user-edited weights on startup. Validate DB date/Decimal values in typed repository models. Persist all final supplier rows and complete run export in one short transaction, after LLM calls finish. A run with fewer result rows than submitted suppliers is not completed. Repeated save of identical result hash returns existing result; different result for the same completed ID is a conflict.
 
