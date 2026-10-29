@@ -101,7 +101,7 @@ The script prompts privately for a key using getpass and makes real billed API c
 
 ## Deploy from GitHub to Streamlit Community Cloud
 
-Preview the restricted public route locally with `python -m streamlit run streamlit_public.py`. It uses visitor keys and gpt-4o-mini only, disables criteria writes and never uses an operator-funded provider. GitHub repository: [deepakpolepalli/20261025-rfp](https://github.com/deepakpolepalli/20261025-rfp) (private). The user will deploy the app. Choose streamlit_public.py as the Community Cloud entry point and verify success/error/export on the actual URL. Do not configure a shared server OpenAI key. SQLite/filesystem retention across hosting restarts is not guaranteed; download completed results.
+Preview the restricted public route locally with `python -m streamlit run streamlit_public.py`. It uses visitor keys and gpt-4o-mini only, disables criteria writes and never uses an operator-funded provider. GitHub repository: [deepakpolepalli/20261025-rfp](https://github.com/deepakpolepalli/20261025-rfp) (public). The user will deploy the app. Choose streamlit_public.py as the Community Cloud entry point and verify success/error/export on the actual URL. Do not configure a shared server OpenAI key. SQLite/filesystem retention across hosting restarts is not guaranteed; download completed results.
 
 ## Troubleshooting
 
@@ -114,7 +114,7 @@ Design: [PRD.md](PRD.md), [architecture.md](architecture.md), [AGENTS.md](AGENTS
 
 ### Community Cloud settings
 
-1. In [Streamlit Community Cloud](https://share.streamlit.io/), create an app from the GitHub repository. Grant Streamlit access to the private repository if prompted.
+1. In [Streamlit Community Cloud](https://share.streamlit.io/), create an app from the GitHub repository. Authorize Streamlit to access the repository if prompted.
 2. Select branch **main** and main file **streamlit_public.py**.
 3. In Advanced settings, choose **Python 3.12**. Leave Secrets empty: every visitor enters their own key in the application.
 4. Deploy, test the connection, evaluate the four fictional PDFs and download the result.

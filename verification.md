@@ -14,7 +14,7 @@
 
 A complete independently recorded live OpenAI four-supplier run, a new model-specific sample export and current screenshots have not been captured in this revision. Existing historical result/image files are preserved and are not displayed as OpenAI examples. Do not edit their provider metadata to imply otherwise.
 
-The private GitHub repository is https://github.com/deepakpolepalli/20261025-rfp. No hosted application URL has been published. Hosting permissions, actual public key flow and filesystem lifecycle remain deployment checks. Session ownership is a classroom isolation measure, not production authentication. Recovery needs the original owner/session identity and surviving files; no cross-session recovery portal is implemented.
+The public GitHub repository is https://github.com/deepakpolepalli/20261025-rfp. No hosted application URL has been published. Hosting permissions, actual public key flow and filesystem lifecycle remain deployment checks. Session ownership is a classroom isolation measure, not production authentication. Recovery needs the original owner/session identity and surviving files; no cross-session recovery portal is implemented.
 
 Exact quotation matching verifies provenance, not score fairness or semantic support. Fresh model evaluations may differ; fixed validated scores replay deterministically. Industry targets remain explicitly illustrative and do not determine rank. gpt-4o-mini is retained as requested despite its documented deprecated status; model access failures are explicit.
 
