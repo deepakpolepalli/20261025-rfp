@@ -258,7 +258,7 @@ Peer PPI exclusively controls the required rank. Show industry index as an addit
 
 ## 10. Delivery and verification
 
-P1 deterministic contracts/database/tools, P2 four PDFs/extraction/normalization, P3 OpenAI/LangGraph/checkpoints and P4 Streamlit are implemented locally. P5 local verification is complete. P6 covers the authorized GitHub publication and Community Cloud handoff; a hosted deployment has not yet been verified. Features outside the PDF require a separate scope request; no RAG workflow belongs to the current graph.
+P1 deterministic contracts/database/tools, P2 four PDFs/extraction/normalization, P3 OpenAI/LangGraph/checkpoints and P4 Streamlit are implemented locally. P5 local verification is complete. P6 covers the authorized GitHub publication and Community Cloud handoff; hosted model selection and criteria saving have been verified; a full live proposal evaluation remains unverified. Features outside the PDF require a separate scope request; no RAG workflow belongs to the current graph.
 
 Verify the worked arithmetic fixture, each tie-break, zero benchmarks, invalid weights, malformed scores/JSON, quote matching, bounded retries, transaction rollback, call accounting, completed-stage reuse, checkpoint recovery, ownership and key isolation. UI checks cover all sections, model options, connection formats and missing-key errors. The user reports a successful OpenAI connection; a complete independently recorded live OpenAI proposal evaluation remains a separate evidence item.
 

@@ -44,3 +44,7 @@ The uploaded main branch matched the local source. The differences were caused b
 47 tests pass in the installed development environment. New checks cover selecting GPT-4.1 in the public UI, backend acceptance of all three models, saved weights persisting within the session, isolation from other sessions, new-session defaults, invalid-total rejection, operator disablement and immutable run snapshots. These are simulated/local regression checks; they do not prove a billed live model evaluation.
 
 The exact Git release snapshot passes 42 tests with 1 optional historical-helper check skipped; excluded development-only transport tests account for the difference from the installed local tree.
+
+### Hosted UI verification
+
+Verified https://rfp-demo.streamlit.app/ after the configuration fix: the dropdown displayed all three models and GPT-4.1 was selected successfully. In a separate test session, the first two weights were changed from 30/20 to 31/19 and saved; the displayed criteria cards and donut chart updated and the total remained 100%. The active editor displayed the session-only scope message. No API key was entered or inspected and no model call was made. This confirms the deployed configuration controls; a full hosted live proposal evaluation remains unverified.
