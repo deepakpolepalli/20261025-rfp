@@ -50,9 +50,10 @@ footer{visibility:hidden}.footnote{font-size:10px;color:#a59bad;margin-top:27px;
 
 PUBLIC_MODE=deployment_mode()=='public'
 DATA=Path(os.getenv('RFP_DATA_DIR',str(ROOT/'data')))
-repo=Repository(DATA)
 if 'owner_hash' not in st.session_state:
     st.session_state.owner_hash=sha256(str(uuid4()).encode()).hexdigest()
+# Public visitors edit only their own criteria and create runs in their own store.
+repo=Repository(DATA/'sessions'/st.session_state.owner_hash if PUBLIC_MODE else DATA)
 if 'batch_generation' not in st.session_state:
     st.session_state.batch_generation=0
 COLORS=['#7053c6','#5c9e8a','#d6a15c','#7690cc','#bd86a6']
@@ -155,9 +156,11 @@ with tabs[0]:
             color=COLORS[i%len(COLORS)]
             st.markdown(f'''<div class="criterion"><div class="criterion-head"><span class="criterion-title">{escape(c['name'])}</span><span class="criterion-weight">{fmt(c['weight'])}%<span class="max">max {escape(c['max_score'])}</span><span class="active">Active</span></span></div><div class="tag">LLM-SCORED · EVIDENCE REQUIRED</div><div class="bar"><div style="width:100%;background:{color}"></div></div><p>{escape(c['description'])}</p></div>''',unsafe_allow_html=True)
         with st.expander('Configure active criteria and weights'):
-            if PUBLIC_MODE or os.getenv('RFP_ALLOW_CRITERIA_EDIT','true').lower()!='true':
+            if os.getenv('RFP_ALLOW_CRITERIA_EDIT','true').lower()!='true':
                 st.caption('Criteria editing is disabled on this deployment. The seed script controls configuration.')
             else:
+                if PUBLIC_MODE:
+                    st.caption('Changes apply only to your session and future evaluations. Active weights must total 100%.')
                 with st.form('criteria_editor'):
                     rows=[]
                     for c in repo.criteria(active=False):

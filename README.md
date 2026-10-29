@@ -2,13 +2,13 @@
 
 A **Streamlit + LangGraph + SQLite** mini-project. Upload 4-5 synthetic supplier proposals, evaluate criterion scores with evidence, compare suppliers and download a complete result.
 
-**OpenAI is the only model provider. Every user supplies their own API key.** gpt-4o-mini is the default model option; local choices also include gpt-4.1-mini and gpt-4.1. Public mode fixes the option to gpt-4o-mini.
+**OpenAI is the only model provider. Every user supplies their own API key.** gpt-4o-mini is the default model option; local and public choices also include gpt-4.1-mini and gpt-4.1. Public mode offers the same model choices.
 
 ## Current status
 
 The local app implements all five sections, F01-F15 workflow, bounded retries, SQLite checkpoints/recovery, configurable criteria, deterministic calculations/ranking, evidence validation and JSON download. Four fictional three-page PDFs are included.
 
-The user reports successfully testing their OpenAI API key. Automated SDK/UI tests use simulated responses and do not expose a real key. A complete independently recorded OpenAI four-proposal run and public deployment are still pending; see [verification.md](verification.md).
+The user reports successfully testing their OpenAI API key. Automated SDK/UI tests use simulated responses and do not expose a real key. The user has deployed to Community Cloud; a complete independently recorded OpenAI four-proposal run remains pending; see [verification.md](verification.md).
 
 ## Setup and run
 
@@ -51,9 +51,9 @@ The API request uses store=False; this setting is not a guarantee about all prov
 | Operator setting | Behaviour |
 |---|---|
 | RFP_DATA_DIR | Runtime directory; defaults to data/ under the app. |
-| RFP_OPENAI_MODELS | Local allowlist, default gpt-4o-mini,gpt-4.1-mini,gpt-4.1. |
+| RFP_OPENAI_MODELS | Model allowlist for both modes, default gpt-4o-mini,gpt-4.1-mini,gpt-4.1. |
 | RFP_DEPLOYMENT_MODE | local by default; streamlit_public.py forces public. |
-| RFP_ALLOW_CRITERIA_EDIT | true locally; public mode always disables editing. |
+| RFP_ALLOW_CRITERIA_EDIT | true by default in both modes; false disables the editor. Public edits affect only the current session. |
 
 No server API key or secret file is needed for the public route. OpenAI's [model documentation](https://developers.openai.com/api/docs/models/gpt-4o-mini) marks gpt-4o-mini deprecated; it is retained as requested. Access/model errors are explicit and never trigger silent substitution.
 
@@ -101,7 +101,7 @@ The script prompts privately for a key using getpass and makes real billed API c
 
 ## Deploy from GitHub to Streamlit Community Cloud
 
-Preview the restricted public route locally with `python -m streamlit run streamlit_public.py`. It uses visitor keys and gpt-4o-mini only, disables criteria writes and never uses an operator-funded provider. GitHub repository: [deepakpolepalli/20261025-rfp](https://github.com/deepakpolepalli/20261025-rfp) (public). The user will deploy the app. Choose streamlit_public.py as the Community Cloud entry point and verify success/error/export on the actual URL. Do not configure a shared server OpenAI key. SQLite/filesystem retention across hosting restarts is not guaranteed; download completed results.
+Preview the public route locally with `python -m streamlit run streamlit_public.py`. It uses visitor keys, offers gpt-4o-mini, gpt-4.1-mini and gpt-4.1, and lets visitors save their own criteria weights. Public mode stores criteria, runs and artifacts under data/sessions/<session-owner-hash>/ so changes cannot affect another visitor. Existing runs retain their frozen criteria. New sessions start with seeded weights; runtime storage may be lost on restart. GitHub repository: [deepakpolepalli/20261025-rfp](https://github.com/deepakpolepalli/20261025-rfp) (public). The user has deployed the app at [rfp-demo.streamlit.app](https://rfp-demo.streamlit.app/). Choose streamlit_public.py as the Community Cloud entry point and verify success/error/export on the actual URL. Do not configure a shared server OpenAI key. SQLite/filesystem retention across hosting restarts is not guaranteed; download completed results.
 
 ## Troubleshooting
 

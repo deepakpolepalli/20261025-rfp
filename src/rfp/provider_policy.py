@@ -10,8 +10,6 @@ def deployment_mode():
 
 
 def openai_models():
-    if deployment_mode()=='public':
-        return ['gpt-4o-mini']
     return [m.strip() for m in os.getenv('RFP_OPENAI_MODELS','gpt-4o-mini,gpt-4.1-mini,gpt-4.1').split(',') if m.strip()]
 
 

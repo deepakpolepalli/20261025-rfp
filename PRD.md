@@ -2,13 +2,13 @@
 
 Version 1.3 | 25 October 2026 | Local implementation and verification
 
-**Current delivery phase: P6 - GitHub publication and Community Cloud handoff.** The local Streamlit application, F01-F15 LangGraph workflow, SQLite persistence, four sample PDFs and JSON export are implemented. OpenAI API-key authentication is the only active model route. The user reports successfully testing their OpenAI key. Automated checks cover the application and provider boundaries; a complete live OpenAI four-supplier run has not been independently captured in this revision. GitHub publication is authorized; Community Cloud deployment will be performed by the user. See [verification.md](verification.md).
+**Current delivery phase: P6 - GitHub publication and Community Cloud handoff.** The local Streamlit application, F01-F15 LangGraph workflow, SQLite persistence, four sample PDFs and JSON export are implemented. OpenAI API-key authentication is the only active model route. The user reports successfully testing their OpenAI key. Automated checks cover the application and provider boundaries; a complete live OpenAI four-supplier run has not been independently captured in this revision. GitHub publication is complete; the user reports a Community Cloud deployment at https://rfp-demo.streamlit.app/. See [verification.md](verification.md).
 
 ## 1. Purpose and design recommendation
 
 Build a Streamlit application for procurement analysts that evaluates 4-5 fictional vendor proposals consistently, explains the evidence behind each score, compares suppliers within a batch and produces a reproducible leaderboard.
 
-Use **Python + Streamlit + SQLite + LangGraph + OpenAI BYOK**. Every user supplies an OpenAI API key in the UI. The default model option is **gpt-4o-mini**; local configuration also allows gpt-4.1-mini and gpt-4.1, while public mode fixes the option to gpt-4o-mini. Keep one Evaluation Agent and deterministic graph orchestration; a separate agent swarm or service stack is unnecessary.
+Use **Python + Streamlit + SQLite + LangGraph + OpenAI BYOK**. Every user supplies an OpenAI API key in the UI. The default model option is **gpt-4o-mini**; local and public mode also allow gpt-4.1-mini and gpt-4.1. Keep one Evaluation Agent and deterministic graph orchestration; a separate agent swarm or service stack is unnecessary.
 
 The LLM judges proposal content. Deterministic Python validates results and owns every formula, benchmark, tie-break and final rank. A leaderboard is decision support, not a contract award.
 
@@ -75,7 +75,7 @@ These are explicit project decisions where the PDF is silent; they are not addit
 - No actual supplier data, procurement decisions, emails, external browsing by the model or autonomous award actions. Public demo accepts synthetic content only and exposes no cross-session run browser.
 - **Core evaluation uses complete extracted proposal text**, with page labels and verified evidence quotes. No retrieval subsystem is needed for the core mini-project. Long-document retrieval and interactive Q&A are deferred; fail clearly on unsupported input size rather than silently truncating or enabling a new retrieval mode.
 - **Provider:** OpenAI only, in local and public modes. No provider switch or fallback. The user enters a key in a password field; the server creates a request-scoped client using that key explicitly.
-- **Models:** gpt-4o-mini is the default option. Local choices include gpt-4.1-mini and gpt-4.1; the allowlist is configurable. Public mode allows gpt-4o-mini only. Model selection and prompt version remain fixed within one run; changing model starts a new evaluation.
+- **Models:** gpt-4o-mini is the default option. Local choices include gpt-4.1-mini and gpt-4.1; the allowlist is configurable. Public mode offers the same model choices. Model selection and prompt version remain fixed within one run; changing model starts a new evaluation.
 - **Credentials:** key stays in server-side session memory/runtime client only. Never save it to .env, global environment variables, SQLite, graph checkpoints, logs or exports. No server key is used as fallback. Clear my key removes the session value; New evaluation retains it. Re-enter after session loss. No .env file is required.
 - **Connection test:** a completed non-empty model reply confirms connectivity; it is not parsed as a scorecard. Strict JSON/schema/evidence validation applies at F05 during actual proposal evaluation.
 - **User verification:** the user reports their OpenAI key works. This is evidence of their connection check, not an independently observed complete proposal evaluation. New full-run exports must record the actual OpenAI model and validated evidence.
@@ -153,7 +153,7 @@ Every PDF is 2-4 pages and includes executive summary/understanding, solution/im
 
 ## 10. Delivery phases and evidence
 
-P1-P4 have local implementation evidence; P5 has a real saved result, automated checks and browser captures. OpenAI live verification and P6 publication remain open. The detailed node contracts and phase tasks live in architecture.md. Update the single current-phase field above when actual work starts; record changes with actual evidence in verification.md. A later user request to implement multiple phases authorizes progressing through their gates without repeatedly asking for permission.
+P1-P4 have local implementation evidence; P5 has a real saved result, automated checks and browser captures. Full live OpenAI evaluation evidence remains open; GitHub is published and the user has supplied the hosted Cloud URL. The detailed node contracts and phase tasks live in architecture.md. Update the single current-phase field above when actual work starts; record changes with actual evidence in verification.md. A later user request to implement multiple phases authorizes progressing through their gates without repeatedly asking for permission.
 
 | Phase | Planned outcome | Dependency / exit gate | Indicative effort |
 |---|---|---|---|
@@ -163,7 +163,7 @@ P1-P4 have local implementation evidence; P5 has a real saved result, automated 
 | P3 | OpenAI client, versioned prompt, F01-F15 workflow and SQLite checkpoints. | Graph, bounded failures, provider policy, key isolation and recovery checks pass; user reports connection success. | Implemented locally |
 | P4 | Complete Streamlit sections, progress and download. | All four proposals complete one saved/exportable run; reruns do not duplicate it. | 1 h |
 | P5 | Integration regression, screenshots, README, sample JSON and demo. | R01-R16 and R18-R23 have evidence; real-model evidence labelled separately from mocks. | 1 h |
-| P6 | GitHub-sourced Community Cloud deployment and public URL. | Public entry point uses visitor OpenAI key and gpt-4o-mini; success/error/export verified on the published app. | Deferred for now |
+| P6 | GitHub-sourced Community Cloud deployment and public URL. | Public entry point uses visitor OpenAI key, model selection and session-isolated editable weights; success/error/export verified on the published app. | Repository published; hosted regression checks in progress |
 | Deferred; not a current phase | Features outside the mini-project PDF. | Separate request required. | Not estimated |
 
 These roughly eight implementation hours assume credentials and hosting access are ready. Do not drop deployment or error handling to fit the estimate; report blockers honestly.
@@ -188,4 +188,8 @@ OpenAI is the only active provider. Local and public users supply their own key;
 
 On 25 October 2026 the user confirmed their OpenAI key works and requested removal of the previous provider choice and its design details. The app/client policy and all Markdown documents now reflect the OpenAI-only route. No key was requested through chat, inspected or written to files. Existing historical evidence files are preserved but are not offered as current OpenAI examples.
 
-41 automated checks pass in the installed environment. Verification distinguishes simulated SDK/UI checks, the user-reported successful connection, and a complete live OpenAI RFP run that still needs to be captured. The user has authorized GitHub publication and will perform Community Cloud deployment. See verification.md and README.md for current commands and limits.
+47 automated checks pass in the installed environment after the Cloud configuration correction. Verification distinguishes simulated SDK/UI checks, the user-reported successful connection, and a complete live OpenAI RFP run that still needs to be captured. GitHub is public and the user has deployed https://rfp-demo.streamlit.app/. See verification.md and README.md for current commands and limits.
+
+## Cloud configuration correction - 29 October 2026
+
+R02/R13: public visitors can edit activation and weights for their own session; active weights must total 100%. Each public session gets its own SQLite database and artifact directory. Model options in both modes include gpt-4o-mini, gpt-4.1-mini and gpt-4.1 unless explicitly restricted by the operator. Saving weights affects future evaluations, while existing run snapshots remain unchanged. A new browser session starts with seeded weights. No API key is persisted.

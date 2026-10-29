@@ -2,13 +2,13 @@
 
 ## 1. Read and coordinate
 
-Read PRD.md, architecture.md and the affected code before changes. PRD owns requirements/current phase; architecture owns F01-F15 state/workflow contracts; this file owns coding practices. agent.md is a pointer, not a duplicate rule set. User instructions and the assignment take precedence. The user has authorized GitHub publication after a privacy review; the user will deploy the app to Community Cloud.
+Read PRD.md, architecture.md and the affected code before changes. PRD owns requirements/current phase; architecture owns F01-F15 state/workflow contracts; this file owns coding practices. agent.md is a pointer, not a duplicate rule set. User instructions and the assignment take precedence. The user has authorized GitHub publication after a privacy review; the user has deployed the app to Community Cloud.
 
 Keep answers concise, practical and professional. Work through authorized changes without repeatedly requesting permission. Do not claim planned work or simulated-provider checks as live evidence. The user reports their OpenAI key works; distinguish that from an independently captured full proposal evaluation.
 
 ## 2. Scope and stack
 
-Use Python, Streamlit, SQLite, LangGraph StateGraph and **OpenAI API-key authentication only** in local and public modes. provider_policy.py rejects every unsupported provider. Default model option is gpt-4o-mini; local allowlist also includes gpt-4.1-mini and gpt-4.1. Public mode permits gpt-4o-mini only and disables criteria editing. No provider or model fallback. Retain the explicitly requested model while documenting its known deprecated status; do not substitute silently.
+Use Python, Streamlit, SQLite, LangGraph StateGraph and **OpenAI API-key authentication only** in local and public modes. provider_policy.py rejects every unsupported provider. Default model option is gpt-4o-mini; local and public allowlists also include gpt-4.1-mini and gpt-4.1. Public criteria editing is enabled in a session-specific SQLite database, isolated from other visitors. No provider or model fallback. Retain the explicitly requested model while documenting its known deprecated status; do not substitute silently.
 
 No RAG or extra service stack is needed by the PDF. Do not reactivate retired integrations or historical helper scripts as selectable application routes. Preserve user files and historical evidence without presenting them as current OpenAI output. Do not spawn sub-agents unless explicitly requested or required by applicable instructions.
 

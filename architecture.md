@@ -2,7 +2,7 @@
 
 Version 1.3 | 25 October 2026 | OpenAI-only local application
 
-Product authority/current phase: [PRD.md](PRD.md). Local application is implemented; GitHub publication is authorized and Community Cloud deployment will be performed by the user. The user reports their OpenAI key works. Automated evidence and remaining full-run checks are in [verification.md](verification.md).
+Product authority/current phase: [PRD.md](PRD.md). GitHub is published and the user has deployed https://rfp-demo.streamlit.app/. The user reports their OpenAI key works. Automated evidence and remaining full-run checks are in [verification.md](verification.md).
 
 ## 1. Architecture in plain English
 
@@ -12,7 +12,7 @@ The user uploads 4-5 synthetic proposals, enters an OpenAI key and selects a GPT
 
 The graph is a **sequence of functions with decision points**. LangGraph keeps track of the current vendor, frozen criteria/model, validated results and next step. **Blue = Python rules. Orange = LLM.** Only F04 calls the selected OpenAI model using the user-supplied API key.
 
-The repository is prepared for GitHub publication. The user will deploy streamlit_public.py on Community Cloud with Python 3.12; each visitor supplies an OpenAI key. Runtime databases, uploads, personal notes and historical outputs are excluded from Git.
+The public repository is deployed using streamlit_public.py on Community Cloud with Python 3.12; each visitor supplies an OpenAI key. Runtime databases, uploads, personal notes and historical outputs are excluded from Git.
 
 ```mermaid
 flowchart TD
@@ -70,7 +70,7 @@ flowchart TD
     UI --> Download[Leaderboard, scorecards and JSON]
 ```
 
-One provider is supported: OpenAI. The sidebar has no alternate-provider option. provider_policy.py rejects unsupported provider snapshots before client construction, run creation and run recovery. Local mode defaults to gpt-4o-mini and permits the configured model allowlist; public mode permits gpt-4o-mini only. F01 freezes provider/model, criteria and prompt version for the batch.
+One provider is supported: OpenAI. The sidebar has no alternate-provider option. provider_policy.py rejects unsupported provider snapshots before client construction, run creation and run recovery. Both modes default to gpt-4o-mini and offer gpt-4.1-mini and gpt-4.1 through the configured model allowlist. F01 freezes provider/model, criteria and prompt version for the batch.
 
 The password field stores the key in server-side Streamlit session memory. make_client passes it explicitly to OpenAI(api_key=key, base_url="https://api.openai.com/v1"). Requests use the Responses API with store=False; response storage configuration is not a promise of zero provider retention. No .env loading, shared server key or environment-key fallback is used. No user key/client enters graph state, SQLite, logs or downloads. Clear my key removes the session value; session loss requires re-entry.
 
@@ -83,7 +83,7 @@ The requested gpt-4o-mini option is retained despite its deprecated status in [o
 | Module | Responsibility |
 |---|---|
 | app.py | Forms, model/key controls, five UI sections, progress and safe JSON download. |
-| streamlit_public.py | Public-mode entry point; user key required, fixed model and read-only criteria. |
+| streamlit_public.py | Public-mode entry point; user key required, model selection and session-isolated editable criteria. |
 | src/rfp/provider_policy.py | OpenAI-only provider enforcement and allowed models. |
 | src/rfp/contracts.py | Pydantic inputs, valid active criteria, canonical names and hashes. |
 | src/rfp/clients/llm.py | OpenAI client, normalized reply/usage metadata and safe errors. |
@@ -265,3 +265,7 @@ Verify the worked arithmetic fixture, each tie-break, zero benchmarks, invalid w
 Local source/saved results depend on filesystem survival. Recovery requires the original owner/session identity; there is no production login or cross-session recovery portal. Public mode disables criteria writes, requires each visitor's key and never uses a shared operator credential. Model-generated judgments remain decision support; matching a quote does not prove fair scoring.
 
 References: [LangGraph Graph API](https://docs.langchain.com/oss/python/langgraph/graph-api), [LangGraph checkpoints](https://docs.langchain.com/oss/python/langgraph/persistence), [OpenAI authentication](https://developers.openai.com/api/reference/overview), [OpenAI Responses quickstart](https://developers.openai.com/api/docs/quickstart).
+
+## Public session configuration
+
+The public entry point selects public mode without restricting the model list. The same RFP_OPENAI_MODELS allowlist is validated in the UI and backend. Before constructing Repository, Streamlit creates its random session owner hash. In public mode Repository uses data/sessions/<session-owner-hash>/, separating criteria, runs, checkpoints and uploaded artifacts between visitors. Local mode retains the existing data directory. The editor validates a 100% active weight total before updating that session database. F01 freezes a run snapshot; later edits do not rewrite saved scores or criteria. New evaluation keeps the same session settings; a lost/new session starts from seeds. The operator can explicitly disable the editor with RFP_ALLOW_CRITERIA_EDIT=false. This is classroom session isolation, not production user authentication or durable cross-session storage.
